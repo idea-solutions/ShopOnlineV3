@@ -1,10 +1,15 @@
-﻿namespace Domain.Models.Entities
+﻿using Domain.Models.Enum;
+using System;
+using System.Collections.Generic;
+
+namespace Domain.Models.Entities
 {
     public class Category
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public bool CategoryParent { get; set; }
-        public int SubCategoryId { get; set; }
+        public TypeCategories CategoryParent { get; set; }
+        public Guid SubCategoryId { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

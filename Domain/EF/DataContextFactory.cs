@@ -1,22 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-
-
-using System.IO;
 using Microsoft.Extensions.Configuration;
-
+using System.IO;
 
 namespace Domain.EF
 {
-    class DataContextFactory : IDesignTimeDbContextFactory<WebOnlineDbContext>
+    internal class DataContextFactory : IDesignTimeDbContextFactory<WebOnlineDbContext>
     {
         public WebOnlineDbContext CreateDbContext(string[] args)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("Config.json")
-                    .Build(); ;
-                
+                    .Build();
 
             var connectionString = configuration.GetConnectionString("SqlServerConnection");
 

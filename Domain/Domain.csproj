@@ -24,8 +24,4 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.0-preview.5.20279.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DBConfig\" />
-  </ItemGroup>
-
 </Project>

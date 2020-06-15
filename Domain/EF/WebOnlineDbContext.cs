@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Domain.DBConfig;
 using Domain.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Domain.EF
 {
-    public class WebOnlineDbContext : IdentityDbContext<AppUser,AppRole,Guid>
+    public class WebOnlineDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public WebOnlineDbContext(DbContextOptions options) : base(options)
         {
@@ -14,13 +15,19 @@ namespace Domain.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
+            modelBuilder.ApplyConfiguration(new CartConfig());
+            modelBuilder.ApplyConfiguration(new AppUserConfig());
+            modelBuilder.ApplyConfiguration(new AppRoleConfig());
+            modelBuilder.ApplyConfiguration(new CategoryConfig());
+            modelBuilder.ApplyConfiguration(new ImageConfig());
+            modelBuilder.ApplyConfiguration(new OrderConfig());
+            modelBuilder.ApplyConfiguration(new OrderDetailConfig());
+            modelBuilder.ApplyConfiguration(new ProductConfig());
+            modelBuilder.ApplyConfiguration(new TypeProductConfig());
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -29,8 +36,10 @@ namespace Domain.EF
             modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
         }
+
         //entities
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<Product> Products { get; set; }
     }
 }

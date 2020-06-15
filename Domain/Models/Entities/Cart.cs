@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Models.Entities
 {
-   public class Cart
+    public class Cart
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public int  ProductId { get; set; }
+        public Guid ProductId { get; set; }
+        public DateTime DateAdd { get; set; }
         public int Quantity { get; set; }
-
+        public AppUser AppUser { get; set; }
+       
     }
 }

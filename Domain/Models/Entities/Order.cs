@@ -1,10 +1,16 @@
-﻿using System;
+﻿using Domain.Models.Enum;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Models.Entities
 {
-    class Order
+    public class Order
     {
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public PayWays PayWays { get; set; }
+        public double Amount { get; set; }
+        public int StatusOrder { get; set; }
+
     }
 }
