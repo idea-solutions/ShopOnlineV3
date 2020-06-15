@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "SqlServerConnection": "Server=DESKTOP-61G807S\\SQLEXPRESS;Database=ShopOnlineV3;Trusted_Connection=True;"
+  }
+}
