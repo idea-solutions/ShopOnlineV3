@@ -1,27 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+
+
+using System.IO;
 using Microsoft.Extensions.Configuration;
+
 
 namespace Domain.EF
 {
-    class DataContextFactory : IDesignTimeDbContextFactory<DbContext>
+    class DataContextFactory : IDesignTimeDbContextFactory<WebOnlineDbContext>
     {
-        public DbContext CreateDbContext(string[] args)
+        public WebOnlineDbContext CreateDbContext(string[] args)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("Config.json")
-                .Build();
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("Config.json")
+                    .Build(); ;
+                
 
-            var connectionString = configuration.GetConnectionString("HotelDB");
+            var connectionString = configuration.GetConnectionString("SqlServerConnection");
 
-            var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<WebOnlineDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
 
-            return new DbContext(optionsBuilder.Options);
+            return new WebOnlineDbContext(optionsBuilder.Options);
         }
     }
 }
