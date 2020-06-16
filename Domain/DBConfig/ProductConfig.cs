@@ -21,7 +21,7 @@ namespace Domain.DBConfig
             builder.Property(x => x.DateModified);
             builder.Property(x => x.CreateBy).IsRequired();
             builder.Property(x => x.ModifiedBy).IsRequired();
-            builder.Property(x => x.Price).IsRequired();
+            builder.Property(x => x.Price).IsRequired().HasColumnType("decimal(18,2)");
             builder.Property(x => x.Status).IsRequired().HasDefaultValue(Status.Active);
 
 

@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Api.Configuration;
 using Domain.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using UnitOfWork;
+using WebApi.Configuration;
 
 namespace WebApi
 {
@@ -32,6 +28,16 @@ namespace WebApi
 
             services.AddDbContext<WebOnlineDbContext>(config =>
                 config.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
+            services.AddControllers().AddNewtonsoftJson();
+            services.ConfigureCors();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Title = "My api",
+                    Version = "0.1"
+                });
+            });
             services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
         }
 
@@ -42,16 +48,24 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
 
+            app.UseSwagger();
+
+            app.UseCors("CorsPolicy");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop Online Api");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop Online Api 2");
             });
         }
     }

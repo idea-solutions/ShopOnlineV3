@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace UnitOfWork
 {
-    public class BaseRepository<T> : IRepository<T> where T : class
+    public sealed class BaseRepository<T> : IRepository<T> where T : class
     {
         private readonly WebOnlineDbContext _dbContext;
         private readonly DbSet<T> _dbSet;
@@ -18,12 +18,12 @@ namespace UnitOfWork
             _dbSet = _dbContext.Set<T>();
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll()
         {
             return _dbSet ;
         }
 
-        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
+        public IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
         {
             IQueryable<T> query = _dbSet;
 
@@ -52,12 +52,12 @@ namespace UnitOfWork
         }
 
 
-        public  virtual T GetById(Guid id)
+        public T GetById(Guid id)
         {
             return _dbSet.Find(id);
         }
 
-        public virtual void CreateNew(T t)
+        public void CreateNew(T t)
         {
             _dbSet.Add(t);
         }
