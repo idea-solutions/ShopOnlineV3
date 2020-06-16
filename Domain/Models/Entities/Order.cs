@@ -12,5 +12,7 @@ namespace Domain.Models.Entities
         public double Amount { get; set; }
         public int StatusOrder { get; set; }
 
+        public AppUser AppUser { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
 }

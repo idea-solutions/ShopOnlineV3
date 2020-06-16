@@ -10,6 +10,9 @@ namespace Domain.Models.Entities
         public string Name { get; set; }
         public TypeCategories CategoryParent { get; set; }
         public Guid SubCategoryId { get; set; }
+
         public List<Product> Products { get; set; }
+        
+      
     }
 }

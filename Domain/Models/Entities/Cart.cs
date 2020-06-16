@@ -9,6 +9,8 @@ namespace Domain.Models.Entities
         public Guid ProductId { get; set; }
         public DateTime DateAdd { get; set; }
         public int Quantity { get; set; }
+
+
         public AppUser AppUser { get; set; }
        
     }

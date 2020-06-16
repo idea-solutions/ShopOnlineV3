@@ -13,6 +13,8 @@ namespace Domain.Models.Entities
         public DateTime DateModified { get; set; }
         public int Status { get; set; }
         public Guid ProductId { get; set; }
+
         public Product Product { get; set; }
+       
     }
 }

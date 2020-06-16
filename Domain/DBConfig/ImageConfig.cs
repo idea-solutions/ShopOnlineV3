@@ -20,7 +20,7 @@ namespace Domain.DBConfig
             builder.Property(x => x.ModifiedBy);
             builder.Property(x => x.DateModified);
             builder.Property(x => x.Status).HasDefaultValue(Status.Active);
-  
+            builder.HasOne(x => x.Product).WithMany(x => x.Images).HasForeignKey(x => x.ProductId);
 
         }
     }

@@ -23,8 +23,10 @@ namespace Domain.DBConfig
             builder.Property(x => x.ModifiedBy).IsRequired();
             builder.Property(x => x.Price).IsRequired();
             builder.Property(x => x.Status).IsRequired().HasDefaultValue(Status.Active);
-         
-           
+
+
+            builder.HasOne(x => x.Category).WithMany(x => x.Products).HasForeignKey(x => x.CategoryId);
+
 
 
         }
