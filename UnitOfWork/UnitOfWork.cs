@@ -90,5 +90,10 @@ namespace UnitOfWork
                 return _TypeProduct ??= new BaseRepository<TypeProduct>(_dbContext);
             }
         }
+
+        public bool Commit()
+        {
+            return _dbContext.SaveChanges() > 0;
+        }
     }
 }

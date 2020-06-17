@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(WebOnlineDbContext))]
-    [Migration("20200616110127_db2")]
-    partial class db2
+    [Migration("20200617073630_data")]
+    partial class data
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.0-preview.5.20278.2")
+                .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -141,7 +141,7 @@ namespace Domain.Migrations
                     b.Property<DateTime>("DateAdd")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 6, 16, 18, 1, 26, 757, DateTimeKind.Local).AddTicks(9388));
+                        .HasDefaultValue(new DateTime(2020, 6, 17, 14, 36, 30, 622, DateTimeKind.Local).AddTicks(9499));
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -195,7 +195,7 @@ namespace Domain.Migrations
                     b.Property<DateTime>("DateCreate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 6, 16, 18, 1, 26, 772, DateTimeKind.Local).AddTicks(7345));
+                        .HasDefaultValue(new DateTime(2020, 6, 17, 14, 36, 30, 635, DateTimeKind.Local).AddTicks(8109));
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");
@@ -291,7 +291,7 @@ namespace Domain.Migrations
                     b.Property<DateTime>("DateCreate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 6, 16, 18, 1, 26, 785, DateTimeKind.Local).AddTicks(15));
+                        .HasDefaultValue(new DateTime(2020, 6, 17, 14, 36, 30, 641, DateTimeKind.Local).AddTicks(7880));
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");

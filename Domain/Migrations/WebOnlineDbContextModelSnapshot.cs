@@ -139,7 +139,7 @@ namespace Domain.Migrations
                     b.Property<DateTime>("DateAdd")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 6, 16, 19, 34, 37, 303, DateTimeKind.Local).AddTicks(6762));
+                        .HasDefaultValue(new DateTime(2020, 6, 17, 16, 3, 8, 490, DateTimeKind.Local).AddTicks(6600));
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -174,7 +174,9 @@ namespace Domain.Migrations
                         .HasMaxLength(100);
 
                     b.Property<Guid>("SubCategoryId")
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("e2d07078-84d1-4875-9da7-4aeed81225d3"));
 
                     b.HasKey("Id");
 
@@ -193,7 +195,7 @@ namespace Domain.Migrations
                     b.Property<DateTime>("DateCreate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 6, 16, 19, 34, 37, 317, DateTimeKind.Local).AddTicks(6557));
+                        .HasDefaultValue(new DateTime(2020, 6, 17, 16, 3, 8, 504, DateTimeKind.Local).AddTicks(1866));
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");
@@ -289,7 +291,7 @@ namespace Domain.Migrations
                     b.Property<DateTime>("DateCreate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 6, 16, 19, 34, 37, 323, DateTimeKind.Local).AddTicks(7528));
+                        .HasDefaultValue(new DateTime(2020, 6, 17, 16, 3, 8, 511, DateTimeKind.Local).AddTicks(2118));
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");

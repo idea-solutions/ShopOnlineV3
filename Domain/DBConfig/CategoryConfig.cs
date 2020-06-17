@@ -1,4 +1,5 @@
-﻿using Domain.Models.Entities;
+﻿using System;
+using Domain.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,7 +14,7 @@ namespace Domain.DBConfig
             builder.Property(x => x.Id).ValueGeneratedOnAdd().IsRequired();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.CategoryParent).IsRequired();
-            builder.Property(x => x.SubCategoryId).IsRequired();
+            builder.Property(x => x.SubCategoryId).HasDefaultValue(Guid.Parse("e2d07078-84d1-4875-9da7-4aeed81225d3"));
          
         }
     }

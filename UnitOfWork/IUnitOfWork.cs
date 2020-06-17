@@ -16,5 +16,7 @@ namespace UnitOfWork
         IRepository<OrderDetail> OrderDetails { get; }
         IRepository<Product> Products { get; }
         IRepository<TypeProduct> TypeProducts { get; }
+
+        bool Commit();
     }
 }

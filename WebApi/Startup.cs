@@ -1,4 +1,5 @@
 using Api.Configuration;
+using AutoMapper;
 using Domain.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +26,6 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
             services.AddDbContext<WebOnlineDbContext>(config =>
                 config.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
             services.AddControllers().AddNewtonsoftJson();
@@ -38,6 +38,8 @@ namespace WebApi
                     Version = "0.1"
                 });
             });
+
+            services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
         }
 
