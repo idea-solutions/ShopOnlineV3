@@ -1,7 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using UnitOfWork;
 using WebApi.Models.Dao;
 using WebApi.Models.ModelView;
@@ -10,22 +13,24 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class TypeProductController : ControllerBase
     {
-        private readonly IContainer _container;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public CategoryController(IContainer container)
+        public TypeProductController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _container = container;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        // GET: api/Category
+        // GET: api/TypeProduct
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             try
             {
-                return Ok(await _container.CategoryFactory.GetAll());
+                return Ok(new TypeProductDao(_unitOfWork, _mapper).GetAllTypeProduct().Result);
             }
             catch (Exception e)
             {
@@ -34,28 +39,28 @@ namespace WebApi.Controllers
             }
         }
 
-        // GET: api/Category/5
+        // GET: api/TypeProduct/5
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
             try
             {
-                return Ok(_container.CategoryFactory.GetById(id));
+                return Ok(new TypeProductDao(_unitOfWork, _mapper).GetTypeProductById(id));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return BadRequest();
             }
         }
 
-        // POST: api/Category
+        // POST: api/TypeProduct
         [HttpPost]
-        public IActionResult Post([FromBody] CategoryMv category)
+        public IActionResult Post([FromBody] TypeProductMv typeProduct)
         {
             try
             {
-                return Created(Url.Action("Get"), _container.CategoryFactory.CreateNew(category));
+                return Created(Url.Action("Get"), new TypeProductDao(_unitOfWork, _mapper).CreateNewTypeProduct(typeProduct));
             }
             catch (Exception e)
             {
@@ -64,29 +69,29 @@ namespace WebApi.Controllers
             }
         }
 
-        // PUT: api/Category/5
+        // PUT: api/TypeProduct/5
         [HttpPut("{id}")]
-        public IActionResult Put(Guid id, [FromBody] CategoryMv category)
+        public IActionResult Put(Guid id, [FromBody] TypeProductMv typeProduct)
         {
             try
             {
-                if (_container.CategoryFactory.Update(id,category)) return Ok();
-                return BadRequest();
+                return Created(Url.Action("Get"), new TypeProductDao(_unitOfWork, _mapper).UpdateTypeProduct(id, typeProduct));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return BadRequest();
             }
+
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/TypeProduct/5
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
             try
             {
-                if (_container.CategoryFactory.Delete(id)) return Ok();
+                if (new TypeProductDao(_unitOfWork, _mapper).DeleteTypeProduct(id)) return Ok();
                 return BadRequest();
             }
             catch (Exception e)

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UnitOfWork;
 using WebApi.Configuration;
+using WebApi.Models.Dao;
 
 namespace WebApi
 {
@@ -41,6 +42,7 @@ namespace WebApi
 
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
+            services.AddScoped<IContainer, Container>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +54,7 @@ namespace WebApi
             }
             
             app.UseHttpsRedirection();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -62,8 +65,13 @@ namespace WebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                   );
+
             });
+        
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop Online Api");

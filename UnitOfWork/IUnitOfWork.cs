@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Domain.Models.Entities;
+﻿using Domain.Models.Entities;
+
 
 namespace UnitOfWork
 {
@@ -16,7 +14,6 @@ namespace UnitOfWork
         IRepository<OrderDetail> OrderDetails { get; }
         IRepository<Product> Products { get; }
         IRepository<TypeProduct> TypeProducts { get; }
-
         bool Commit();
     }
 }

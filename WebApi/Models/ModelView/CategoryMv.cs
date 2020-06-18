@@ -10,7 +10,6 @@ namespace WebApi.Models.ModelView
         public string Name { get; set; }
         public TypeCategories CategoryParent { get; set; }
         public Guid SubCategoryId { get; set; }
-
         public List<ProductMv> Products { get; set; }
         
       

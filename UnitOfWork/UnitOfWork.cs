@@ -9,7 +9,6 @@ namespace UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private WebOnlineDbContext _dbContext;
-
         private BaseRepository<AppRole> _AppRole;
         private BaseRepository<AppUser> _AppUser;
         private BaseRepository<Cart> _Cart;

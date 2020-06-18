@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace UnitOfWork
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+       Task<IEnumerable<T>> GetAll();
 
-        public IEnumerable<T> Get(
+        public Task<IEnumerable<T>> Get(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "");
 
-        T GetById(Guid id);
+        Task<T> GetById(object id);
 
         void CreateNew(T t);
 
@@ -23,6 +23,6 @@ namespace UnitOfWork
 
         void Edit(T t);
 
-        void Delete(Guid id);
+        void Delete(object id);
     }
 }

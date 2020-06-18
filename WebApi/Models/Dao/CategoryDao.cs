@@ -4,14 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 using UnitOfWork;
 using WebApi.Models.ModelView;
 
 namespace WebApi.Models.Dao
 {
-    public class CategoryDao
+    public class CategoryDao : IFactory<CategoryMv>
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public CategoryDao(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -19,37 +20,34 @@ namespace WebApi.Models.Dao
             _mapper = mapper;
 
         }
-
-        public List<CategoryMv> GetAllCate()
+        public virtual async Task<List<CategoryMv>> GetAll()
         {
-            var data = _unitOfWork.Categories.GetAll();
+            var data = await _unitOfWork.Categories.GetAll();
             return _mapper.Map<List<CategoryMv>>(data.ToList());
         }
 
-
-        public CategoryMv GetCateById(in Guid id)
+        public virtual  CategoryMv GetById(object id)
         {
-            return _mapper.Map<CategoryMv>(_unitOfWork.Categories.GetById(id));
+            return _mapper.Map<CategoryMv>(_unitOfWork.Categories.GetById(id).Result);
         }
 
-        public object CreateNewCate(CategoryMv category)
+        public virtual CategoryMv CreateNew(CategoryMv data)
         {
-            var data = _mapper.Map<Category>(category);
-            data = _unitOfWork.Categories.CreateNewAddReturnObject(data);
-            return _unitOfWork.Commit() ? _mapper.Map<CategoryMv>(data) : null;
+            var category = _mapper.Map<Category>(data);
+            category = _unitOfWork.Categories.CreateNewAddReturnObject(category);
+            return _unitOfWork.Commit() ? _mapper.Map<CategoryMv>(category) : null;
         }
 
-        public bool UpdateCate(Guid id, CategoryMv category)
+        public bool Update(object id, CategoryMv data)
         {
-            var data = _unitOfWork.Categories.GetById(id);
-            data.Name = category.Name;
-            data.CategoryParent = category.CategoryParent;
-            data.SubCategoryId = category.SubCategoryId;
-
+            var category = _unitOfWork.Categories.GetById(id).Result;
+            category.Name = data.Name;
+            category.CategoryParent = data.CategoryParent;
+            category.SubCategoryId = data.SubCategoryId;
             return _unitOfWork.Commit();
         }
 
-        public bool DeleteCate(Guid id)
+        public virtual bool Delete(object id)
         {
             _unitOfWork.Categories.Delete(id);
             return _unitOfWork.Commit();

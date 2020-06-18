@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace UnitOfWork
 {
@@ -18,12 +19,12 @@ namespace UnitOfWork
             _dbSet = _dbContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return _dbSet ;
+            return await _dbSet.ToListAsync();
         }
 
-        public IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
+        public async Task<IEnumerable<T>> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
         {
             IQueryable<T> query = _dbSet;
 
@@ -43,18 +44,15 @@ namespace UnitOfWork
 
             if (orderBy != null)
             {
-                return orderBy(query).ToList();
+                return await orderBy(query).ToListAsync();
             }
-            else
-            {
-                return query.ToList();
-            }
+
+            return await query.ToListAsync();
         }
 
-
-        public T GetById(Guid id)
+        public async Task<T> GetById(object id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
         public void CreateNew(T t)
@@ -74,7 +72,7 @@ namespace UnitOfWork
             _dbContext.Entry(t).State = EntityState.Modified;
         }
 
-        public void Delete(Guid id)
+        public void Delete(object id)
         {
             var data = _dbSet.Find(id);
             _dbSet.Remove(data);

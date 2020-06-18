@@ -14,12 +14,18 @@ namespace WebApi.Models.MappingProfile
         {
             CreateMap<Category, CategoryMv>();
             CreateMap<CategoryMv,Category > ();
-            CreateMap<Product, ProductMv>();
+            CreateMap<Product, ProductMv>(); 
+            CreateMap<ProductMv, Product>();
             CreateMap<Image, ImageMv>();
+            CreateMap<ImageMv,Image>();
             CreateMap<Cart, CartMv>();
+            CreateMap<CartMv,Cart>();
             CreateMap<TypeProduct, TypeProductMv>();
+            CreateMap<TypeProductMv,TypeProduct>();
             CreateMap<Order, OrderMv>();
+            CreateMap<OrderMv, Order>();
             CreateMap<OrderDetail, OrderDetailMv>();
+            CreateMap<OrderDetailMv,OrderDetail>();
         }
     }
 }
