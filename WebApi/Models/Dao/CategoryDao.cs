@@ -6,6 +6,7 @@ using AutoMapper;
 using Domain.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using UnitOfWork;
+using WebApi.Models.FactoryModule;
 using WebApi.Models.ModelView;
 
 namespace WebApi.Models.Dao

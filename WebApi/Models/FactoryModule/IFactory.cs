@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApi.Models.Dao{
+namespace WebApi.Models.FactoryModule{
     public interface IFactory<T> where T : class
     {
         Task<List<T>> GetAll();

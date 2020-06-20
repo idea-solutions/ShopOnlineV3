@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UnitOfWork;
 using WebApi.Models.Dao;
+using WebApi.Models.FactoryModule;
 using WebApi.Models.ModelView;
 
 namespace WebApi.Controllers
@@ -15,22 +16,20 @@ namespace WebApi.Controllers
     [ApiController]
     public class TypeProductController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly IContainer _container;
 
-        public TypeProductController(IUnitOfWork unitOfWork, IMapper mapper)
+        public TypeProductController(IContainer container)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _container = container;
         }
 
-        // GET: api/TypeProduct
+            // GET: api/TypeProduct
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                return Ok(new TypeProductDao(_unitOfWork, _mapper).GetAllTypeProduct().Result);
+                return Ok(_container.TypeProductFactory.GetAll().Result);
             }
             catch (Exception e)
             {
@@ -45,7 +44,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                return Ok(new TypeProductDao(_unitOfWork, _mapper).GetTypeProductById(id));
+                return Ok(_container.TypeProductFactory.GetById(id));
             }
             catch (Exception e)
             {
@@ -60,7 +59,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                return Created(Url.Action("Get"), new TypeProductDao(_unitOfWork, _mapper).CreateNewTypeProduct(typeProduct));
+                return Created(Url.Action("Get"), _container.TypeProductFactory.CreateNew(typeProduct));
             }
             catch (Exception e)
             {
@@ -75,7 +74,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                return Created(Url.Action("Get"), new TypeProductDao(_unitOfWork, _mapper).UpdateTypeProduct(id, typeProduct));
+                return Ok( _container.TypeProductFactory.Update(id, typeProduct));
             }
             catch (Exception e)
             {
@@ -91,7 +90,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                if (new TypeProductDao(_unitOfWork, _mapper).DeleteTypeProduct(id)) return Ok();
+                if (_container.TypeProductFactory.Delete(id)) return Ok();
                 return BadRequest();
             }
             catch (Exception e)

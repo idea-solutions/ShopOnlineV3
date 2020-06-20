@@ -1,8 +1,10 @@
 using Api.Configuration;
 using AutoMapper;
 using Domain.EF;
+using Domain.Models.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,8 @@ using Microsoft.OpenApi.Models;
 using UnitOfWork;
 using WebApi.Configuration;
 using WebApi.Models.Dao;
+using WebApi.Models.FactoryModule;
+
 
 namespace WebApi
 {
@@ -42,7 +46,14 @@ namespace WebApi
 
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
-            services.AddScoped<IContainer, Container>();
+            services.AddScoped<IContainer,Container>();
+            services.AddIdentity<AppUser, AppRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = false;
+                })
+                .AddEntityFrameworkStores<WebOnlineDbContext>()
+                .AddDefaultTokenProviders();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
