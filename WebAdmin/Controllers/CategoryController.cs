@@ -12,5 +12,15 @@ namespace WebAdmin.Controllers
         {
             return View();
         }
+
+        public IActionResult Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult Create()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

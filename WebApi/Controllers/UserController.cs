@@ -6,6 +6,8 @@ using Domain.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApi.Models.ModelView;
 
 namespace WebApi.Controllers
 {
@@ -22,34 +24,38 @@ namespace WebApi.Controllers
 
         // GET: api/User
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_userManager.Users.ToList());
+            return Ok(await _userManager.Users.ToListAsync());
         }
 
-        // GET: api/User/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/User
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("UserRegister")]  
+        public async Task<IActionResult> UserRegister(UserMv user)
         {
-        }
-
-        // PUT: api/User/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            try
+            {
+                var data = new AppUser()
+                {
+                    UserName = user.UserName,
+                    FirstName =  user.FirstName,
+                    LastName =  user.LastName,
+                    PortalCode = user.PortalCode,
+                    Dob = user.Dob,
+                    PhoneNumber = user.Phone,
+                    Email = user.Email,
+                    Address = user.Address,
+                    
+                    
+                };
+                await _userManager.CreateAsync(data,user.Password);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
         }
     }
 }
