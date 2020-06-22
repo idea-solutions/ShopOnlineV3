@@ -6,18 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAdmin.Controllers
 {
-    public class DemoController : Controller
+    public class ProductController : Controller
     {
         public IActionResult Index()
         {
+            
             return View();
         }
-        public IActionResult Test()
+        [HttpGet]
+        public IActionResult Create()
         {
-            return View();
-        }
-        public IActionResult CreateDemo()
-        {
+
             return View();
         }
     }

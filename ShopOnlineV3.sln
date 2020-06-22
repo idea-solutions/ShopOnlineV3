@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitOfWork", "UnitOfWork\Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{8A27B51B-B9D5-413D-8149-137AE5543540}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAdmin", "WebAdmin\WebAdmin.csproj", "{CD87D465-0878-4AD1-9F59-B5D29D6A5B81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAdmin", "WebAdmin\WebAdmin.csproj", "{CD87D465-0878-4AD1-9F59-B5D29D6A5B81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

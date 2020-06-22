@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-
+using WebAdmin.Common;
 
 namespace WebAdmin.Models.ApiService
 {
@@ -11,7 +11,7 @@ namespace WebAdmin.Models.ApiService
     {
         private static readonly HttpClient _client = new HttpClient
         {
-            BaseAddress = new Uri("")
+            BaseAddress = new Uri(ConstKey.Base_URL)
         };
 
 
@@ -51,5 +51,7 @@ namespace WebAdmin.Models.ApiService
             var res = await _client.PutAsJsonAsync(url + "/" + id, data);
             return res;
         }
+
+        
     }
 }

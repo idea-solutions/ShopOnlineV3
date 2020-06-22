@@ -70,14 +70,16 @@
                         <tbody>
                             @foreach (var category in categories.Where(x => x.CategoryParent == TypeCategories.Child))
                             {
-                                <tr>
-                                    <td>@category.Name</td>
-                                    <td>@categories.SingleOrDefault(x => x.Id == category.SubCategoryId)?.Name</td>
-                                    <td>
-                                        <a class="btn btn-outline-danger" href="@Url.Action("Delete","Category", new {id =category.Id})"><i class="fas fa-trash-alt"></i></a>
-                                        <a class="btn btn-outline-warning" href="@Url.Action("DetailChild","Category", new {id =category.Id})"><i class="fas fa-info-circle"></i></a>
-                                    </td>
-                                </tr>
+                                if (category.CategoryDataParent!=null){
+                                    <tr>
+                                        <td>@category.Name</td>
+                                        <td>@category.CategoryDataParent.Name</td>
+                                        <td>
+                                            <a class="btn btn-outline-danger" href="@Url.Action("Delete","Category", new {id =category.Id})"><i class="fas fa-trash-alt"></i></a>
+                                            <a class="btn btn-outline-warning" href="@Url.Action("DetailChild","Category", new {id =category.Id})"><i class="fas fa-info-circle"></i></a>
+                                        </td>
+                                    </tr>
+}
                             }
                         </tbody>
                     </table>
