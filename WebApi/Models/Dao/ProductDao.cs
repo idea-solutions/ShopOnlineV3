@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Models.Entities;
+using Domain.Models.Enum;
 using UnitOfWork;
 using WebApi.Models.FactoryModule;
 using WebApi.Models.ModelView;
@@ -21,8 +22,8 @@ namespace WebApi.Models.Dao
         }
         public async Task<List<ProductMv>> GetAll()
         {
-            var data = await _unitOfWork.Products.GetAll();
-            return _mapper.Map<List<ProductMv>>(data.ToList());
+            var data = _mapper.Map<List<ProductMv>>(await _unitOfWork.Products.GetAll());
+            return data.ToList();
         }
         public ProductMv GetById(object id)
         {
@@ -39,12 +40,21 @@ namespace WebApi.Models.Dao
             var product = _unitOfWork.Products.GetById(id).Result;
             product.CategoryId = data.CategoryId;
             product.ModifiedBy = data.ModifiedBy;
-            product.DateModified = data.DateModified;
+            product.DateModified = DateTime.Now;
             product.Detail = data.Detail;
             product.Price = data.Price;
-            product.Status = data.Status;
+            product.Name = data.Name;
             _unitOfWork.Products.Edit(product);
             return _unitOfWork.Commit();
+        }
+
+        public bool Disable(object id)
+        {
+            var product = _unitOfWork.Products.GetById(id).Result;
+            if(product.Status ==1) product.Status = (int)Status.Lock;
+            else product.Status = (int)Status.Active;
+            return _unitOfWork.Commit();
+
         }
         public bool Delete(object id)
         {

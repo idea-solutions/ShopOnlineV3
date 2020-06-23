@@ -1,6 +1,9 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using WebAdmin.Models.Enum;
 
 
 namespace WebAdmin.Models.ModelView
@@ -8,7 +11,10 @@ namespace WebAdmin.Models.ModelView
     public class ProductMv
     {
         public Guid Id { get; set; }
+        [Required(ErrorMessage = "Cant null!")]
+        [Display(Name = "Category")]
         public Guid CategoryId { get; set; }
+        [Required(ErrorMessage = "Cant null!")]
         public string Name { get; set; }
         public string Detail { get; set; }
         public decimal Price { get; set; }
@@ -16,7 +22,7 @@ namespace WebAdmin.Models.ModelView
         public Guid ModifiedBy { get; set; }
         public DateTime DateCreate { get; set; }
         public DateTime DateModified { get; set; }
-        public int Status { get; set; }
+        public Status Status { get; set; }
 
 
         public CategoryMv Category { get; set; }

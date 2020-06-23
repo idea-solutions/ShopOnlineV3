@@ -56,5 +56,10 @@ namespace WebApi.Models.Dao
             _unitOfWork.Categories.Delete(id);
             return _unitOfWork.Commit();
         }
+
+        public bool Disable(object id)
+        {
+            return false;
+        }
     }
 }

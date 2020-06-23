@@ -386,3 +386,4 @@ e2e/*.map
 .history
 
 # End of https://www.toptal.com/developers/gitignore/api/angular,visualstudiocode
+/.dockerignore

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "DetailParent";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 @section Scripts{
     <!-- Page level plugins -->
@@ -14,11 +15,14 @@
 
 
 <h1 class="h3 mb-2 text-gray-800">Detail Parent Category</h1>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="m-5 p-5 container">
         <form asp-action="Update" method="post">
-            <input type="hidden" asp-for="Id"  />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <input type="text" class="form-control" asp-for="Name" placeholder="Enter Name Category">
@@ -43,6 +47,10 @@
                 </tr>
             </tfoot>
             <tbody>
+                <tr>
+                    <td> <button class="btn btn-success" data-toggle="modal" data-target="#AddChild">Add new</button> </td>
+                    <td></td>
+                </tr>
                 @foreach (var category in Model.ListChilds)
                 {
                     if (category != null)
@@ -50,23 +58,18 @@
                         <tr>
                             <td>@category.Name</td>
                             <td>
-                                <a class="btn btn-outline-danger" href="@Url.Action("Delete","Category", new {id =category.Id})"><i class="fas fa-trash-alt"></i></a>
-                                <a class="btn btn-outline-warning" href="@Url.Action("DetailChild","Category", new {id =category.Id})"><i class="fas fa-info-circle"></i></a>
+                                <a class="btn btn-outline-danger" href="@Url.Action("Delete", "Category", new {id = category.Id})"><i class="fas fa-trash-alt"></i></a>
+                                <a class="btn btn-outline-warning" href="@Url.Action("DetailChild", "Category", new {id = category.Id})"><i class="fas fa-info-circle"></i></a>
                             </td>
                         </tr>
                     }
                 }
-                <tr>
-                    <td> <button class="btn btn-success" data-toggle="modal" data-target="#AddChild">Add new</button> </td>
-                    <td></td>
-                </tr>
+
             </tbody>
         </table>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 
 <!-- Modal -->
@@ -92,7 +95,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-             </div>
+            </div>
         </div>
     </div>
 </div>

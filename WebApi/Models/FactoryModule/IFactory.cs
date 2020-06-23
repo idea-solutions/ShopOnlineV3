@@ -11,6 +11,7 @@ namespace WebApi.Models.FactoryModule{
         T CreateNew(T data);
         bool Update(object id, T data);
         bool Delete(object id);
+        bool Disable(object id);
     }
 
 }

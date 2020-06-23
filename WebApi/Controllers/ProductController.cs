@@ -39,7 +39,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                return Ok(_container.ProductFactory.GetAll());
+                return Ok(_container.ProductFactory.GetById(id));
             }
             catch (Exception e)
             {
@@ -69,7 +69,24 @@ namespace WebApi.Controllers
         {
             try
             {
-                return Created(Url.Action("Get"), _container.ProductFactory.Update(id,product));
+                return Ok(_container.ProductFactory.Update(id,product));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+
+        // : api/ApiWithActions/5
+        [HttpGet("Disable/{id}")]
+        public IActionResult Disable(Guid id)
+        {
+            try
+            {
+                if (_container.ProductFactory.Disable(id)) return Ok();
+                return NoContent();
             }
             catch (Exception e)
             {
