@@ -6,6 +6,7 @@ using AutoMapper;
 using Domain.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using UnitOfWork;
+using WebApi.Models.FactoryModule;
 using WebApi.Models.ModelView;
 
 namespace WebApi.Models.Dao
@@ -23,12 +24,17 @@ namespace WebApi.Models.Dao
         public virtual async Task<List<CategoryMv>> GetAll()
         {
             var data = await _unitOfWork.Categories.GetAll();
-            return _mapper.Map<List<CategoryMv>>(data.ToList());
+            var categories = _mapper.Map<List<CategoryMv>>(data.ToList());
+            foreach (var category in categories) 
+                category.CategoryDataParent = categories.SingleOrDefault(x=>x.Id == category.SubCategoryId);
+            return categories;
         }
 
         public virtual  CategoryMv GetById(object id)
         {
-            return _mapper.Map<CategoryMv>(_unitOfWork.Categories.GetById(id).Result);
+            var value = _mapper.Map<CategoryMv>(_unitOfWork.Categories.GetById(id).Result);
+            value.ListChilds = GetAll().Result.Where(x => x.SubCategoryId == value.Id).ToList();
+            return value;
         }
 
         public virtual CategoryMv CreateNew(CategoryMv data)
@@ -42,8 +48,6 @@ namespace WebApi.Models.Dao
         {
             var category = _unitOfWork.Categories.GetById(id).Result;
             category.Name = data.Name;
-            category.CategoryParent = data.CategoryParent;
-            category.SubCategoryId = data.SubCategoryId;
             return _unitOfWork.Commit();
         }
 
@@ -51,6 +55,11 @@ namespace WebApi.Models.Dao
         {
             _unitOfWork.Categories.Delete(id);
             return _unitOfWork.Commit();
+        }
+
+        public bool Disable(object id)
+        {
+            return false;
         }
     }
 }

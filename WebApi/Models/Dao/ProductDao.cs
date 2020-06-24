@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Models.Entities;
+using Domain.Models.Enum;
 using UnitOfWork;
+using WebApi.Models.FactoryModule;
 using WebApi.Models.ModelView;
 
 namespace WebApi.Models.Dao
 {
-    public class ProductDao
+    public class ProductDao : IFactory<ProductMv>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,42 +20,49 @@ namespace WebApi.Models.Dao
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
-        public async Task<List<ProductMv>> GetAllProduct()
+        public async Task<List<ProductMv>> GetAll()
         {
-            var data = await _unitOfWork.Products.GetAll();
-            return _mapper.Map<List<ProductMv>>(data.ToList());
+            var data = _mapper.Map<List<ProductMv>>(await _unitOfWork.Products.GetAll());
+            return data.ToList();
         }
-
-
-        public ProductMv GetProductById(in Guid id)
+        public ProductMv GetById(object id)
         {
             return _mapper.Map<ProductMv>(_unitOfWork.Products.GetById(id).Result);
         }
-
-        public object CreateNewProduct(ProductMv product)
+        public ProductMv CreateNew(ProductMv data)
         {
-            var data = _mapper.Map<Product>(product);
-            data = _unitOfWork.Products.CreateNewAddReturnObject(data);
-            return _unitOfWork.Commit() ? _mapper.Map<ProductMv>(data) : null;
+            var product = _mapper.Map<Product>(data);
+            product = _unitOfWork.Products.CreateNewAddReturnObject(product);
+            return _unitOfWork.Commit() ? _mapper.Map<ProductMv>(product) : null;
         }
-
-        public bool UpdateProduct(Guid id, ProductMv product)
+        public bool Update(object id, ProductMv data)
         {
-            var data = _unitOfWork.Products.GetById(id).Result;
-            data.CategoryId = product.CategoryId;
-            data.ModifiedBy = product.ModifiedBy;
-            data.DateModified = product.DateModified;
-            data.Detail = product.Detail;
-            data.Price = product.Price;
-            data.Status = product.Status;
-            _unitOfWork.Products.Edit(data);
+            var product = _unitOfWork.Products.GetById(id).Result;
+            product.CategoryId = data.CategoryId;
+            product.ModifiedBy = data.ModifiedBy;
+            product.DateModified = DateTime.Now;
+            product.Detail = data.Detail;
+            product.Price = data.Price;
+            product.Name = data.Name;
+            _unitOfWork.Products.Edit(product);
             return _unitOfWork.Commit();
         }
-        public bool DeleteProduct(Guid id)
-        {
 
-            _unitOfWork.Products.Delete(id);
+        public bool Disable(object id)
+        {
+            var product = _unitOfWork.Products.GetById(id).Result;
+            if(product.Status ==1) product.Status = (int)Status.Lock;
+            else product.Status = (int)Status.Active;
+            return _unitOfWork.Commit();
+
+        }
+        public bool Delete(object id)
+        {
+            if (_unitOfWork.Products
+                .GetAll().Result
+                .Count(x => x.Images.Any(image => image.ProductId == (Guid)id) ||
+                            x.TypeProducts.Any(x => x.ProductId == (Guid)id)) > 0) return false;
+            _unitOfWork.TypeProducts.Delete(id);
             return _unitOfWork.Commit();
         }
     }

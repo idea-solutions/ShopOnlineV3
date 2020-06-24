@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using UnitOfWork;
 using WebApi.Models.Dao;
+using WebApi.Models.FactoryModule;
 using WebApi.Models.ModelView;
 
 namespace WebApi.Controllers

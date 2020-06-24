@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Models.Entities;
 using UnitOfWork;
+using WebApi.Models.FactoryModule;
 using WebApi.Models.ModelView;
 
 namespace WebApi.Models.Dao
 {
-    public class TypeProductDao
+    public class TypeProductDao : IFactory<TypeProductMv>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,42 +19,44 @@ namespace WebApi.Models.Dao
             _unitOfWork = unitOfWork;
             _mapper = mapper;
 
+
         }
-        public async Task<List<TypeProduct>> GetAllTypeProduct()
+        
+        public async Task<List<TypeProductMv>> GetAll()
         {
             var data = await _unitOfWork.TypeProducts.GetAll();
-            return _mapper.Map<List<TypeProduct>>(data.ToList());
+            return _mapper.Map<List<TypeProductMv>>(data.ToList());
         }
 
-
-        public TypeProduct GetTypeProductById(in Guid id)
+        public TypeProductMv GetById(object id)
         {
-            return _mapper.Map<TypeProduct>(_unitOfWork.TypeProducts.GetById(id).Result);
+            return _mapper.Map<TypeProductMv>(_unitOfWork.TypeProducts.GetById(id).Result);
         }
 
-        public object CreateNewTypeProduct(TypeProductMv typeProduct)
+        public TypeProductMv CreateNew(TypeProductMv data)
         {
-            var data = _mapper.Map<TypeProduct>(typeProduct);
-            data = _unitOfWork.TypeProducts.CreateNewAddReturnObject(data);
-            return _unitOfWork.Commit() ? _mapper.Map<TypeProductMv>(data) : null;
+            var product = _mapper.Map<TypeProduct>(data);
+            product = _unitOfWork.TypeProducts.CreateNewAddReturnObject(product);
+            return _unitOfWork.Commit() ? _mapper.Map<TypeProductMv>(product) : null;
         }
 
-        public bool UpdateTypeProduct(Guid id, TypeProductMv typeProduct)
+        public bool Update(object id, TypeProductMv data)
         {
-            var data = _unitOfWork.TypeProducts.GetById(id).Result;
-            data.Color = typeProduct.Color;
-            data.Color = typeProduct.Size;
-                        return _unitOfWork.Commit();
+            var typeProduct = _unitOfWork.TypeProducts.GetById(id).Result;
+            typeProduct.Color = data.Color;
+            typeProduct.Size = data.Size;
+            return _unitOfWork.Commit();
         }
 
-        public bool DeleteTypeProduct(Guid id)
+        public bool Delete(object id)
         {
-            if (_unitOfWork.Products
-                .GetAll().Result
-                .Count(x => x.Images.Any(image => image.ProductId == id) ||
-                            x.TypeProducts.Any(x => x.ProductId == id)) > 0) return false;
             _unitOfWork.TypeProducts.Delete(id);
             return _unitOfWork.Commit();
+        }
+
+        public bool Disable(object id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

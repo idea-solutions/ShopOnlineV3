@@ -1,8 +1,9 @@
-using Api.Configuration;
 using AutoMapper;
 using Domain.EF;
+using Domain.Models.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UnitOfWork;
 using WebApi.Configuration;
-using WebApi.Models.Dao;
+using WebApi.Models.FactoryModule;
 
 namespace WebApi
 {
@@ -39,10 +40,10 @@ namespace WebApi
                     Version = "0.1"
                 });
             });
-
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
             services.AddScoped<IContainer, Container>();
+            services.ConfigIdentity();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +53,7 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -69,9 +70,8 @@ namespace WebApi
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}"
                    );
-
             });
-        
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop Online Api");

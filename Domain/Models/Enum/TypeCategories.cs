@@ -2,7 +2,7 @@
 {
     public enum TypeCategories
     {
-        Parent,
-        Child
+        Parent =1,
+        Child = 0
     }
 }
