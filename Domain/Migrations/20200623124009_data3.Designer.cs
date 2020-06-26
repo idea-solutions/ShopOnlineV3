@@ -4,14 +4,16 @@ using Domain.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Domain.Migrations
 {
     [DbContext(typeof(WebOnlineDbContext))]
-    partial class WebOnlineDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200623124009_data3")]
+    partial class data3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,7 +141,7 @@ namespace Domain.Migrations
                     b.Property<DateTime>("DateAdd")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 6, 23, 19, 56, 14, 715, DateTimeKind.Local).AddTicks(1709));
+                        .HasDefaultValue(new DateTime(2020, 6, 23, 19, 40, 8, 720, DateTimeKind.Local).AddTicks(1509));
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -284,11 +286,6 @@ namespace Domain.Migrations
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("CountView")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
 
                     b.Property<Guid>("CreateBy")
                         .HasColumnType("uniqueidentifier");

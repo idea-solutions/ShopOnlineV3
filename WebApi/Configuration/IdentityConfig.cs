@@ -22,7 +22,6 @@ namespace WebApi.Configuration
             services.Configure<IdentityOptions>(config =>
             {
                 config.User.RequireUniqueEmail = true;
-                
                 config.Password.RequireDigit = true;
                 config.Password.RequireLowercase = false;
                 config.Password.RequireNonAlphanumeric = false;

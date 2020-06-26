@@ -15,6 +15,7 @@ namespace WebAdmin.Controllers
     {
         private const string ModelName = "/api/category";
 
+        
         public async Task<IActionResult> Index()
         {
             var res = await ServiceApi.GetData(ModelName);

@@ -23,7 +23,7 @@ namespace WebApi.Controllers
             _container = container;
         }
 
-            // GET: api/TypeProduct
+        // GET: api/TypeProduct
         [HttpGet]
         public IActionResult Get()
         {
@@ -53,6 +53,26 @@ namespace WebApi.Controllers
             }
         }
 
+        // GET: api/TypeProduct/GetByProductId/5
+        [HttpGet("GetByProductId/{id}")]
+        public IActionResult GetByProductId(Guid id)
+        {
+            try
+            {
+                var data = _container.ProductFactory.GetById(id);
+                var typeProducts = _container.TypeProductFactory.GetAll().Result.Where(x => x.ProductId == id).ToList();
+                foreach (var typeProduct in typeProducts) typeProduct.Product = null; 
+                
+                data.TypeProducts =  typeProducts;
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
         // POST: api/TypeProduct
         [HttpPost]
         public IActionResult Post([FromBody] TypeProductMv typeProduct)
@@ -74,7 +94,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                return Ok( _container.TypeProductFactory.Update(id, typeProduct));
+                return Ok(_container.TypeProductFactory.Update(id, typeProduct));
             }
             catch (Exception e)
             {

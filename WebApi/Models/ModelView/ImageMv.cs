@@ -13,7 +13,7 @@ namespace WebApi.Models.ModelView
         public DateTime DateModified { get; set; }
         public int Status { get; set; }
         public Guid ProductId { get; set; }
-
+        public string FileInput { get; set; }
         public ProductMv Product { get; set; }
        
     }

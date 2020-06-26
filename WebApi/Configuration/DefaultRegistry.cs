@@ -1,5 +1,4 @@
-﻿
-using Domain.EF;
+﻿using Domain.EF;
 using Microsoft.EntityFrameworkCore;
 using StructureMap;
 using UnitOfWork;

@@ -14,7 +14,7 @@ namespace Domain.DBConfig
             builder.HasKey(x => x.Id);
             builder.Property(x => x.ProductId).IsRequired();
             builder.Property(x => x.CreateBy).IsRequired();
-            builder.Property(x => x.DateCreate).IsRequired().HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.DateCreate).IsRequired().HasDefaultValueSql("getdate()");
             builder.Property(x => x.FileName).IsRequired().HasMaxLength(50);
             builder.Property(x => x.CreateBy).IsRequired();
             builder.Property(x => x.ModifiedBy);

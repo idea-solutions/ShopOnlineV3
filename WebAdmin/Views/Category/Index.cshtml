@@ -70,7 +70,8 @@
                         <tbody>
                             @foreach (var category in categories.Where(x => x.CategoryParent == TypeCategories.Child))
                             {
-                                if (category.CategoryDataParent!=null){
+                                if (category.CategoryDataParent != null)
+                                {
                                     <tr>
                                         <td>@category.Name</td>
                                         <td>@category.CategoryDataParent.Name</td>
@@ -79,7 +80,7 @@
                                             <a class="btn btn-outline-warning" href="@Url.Action("DetailChild","Category", new {id =category.Id})"><i class="fas fa-info-circle"></i></a>
                                         </td>
                                     </tr>
-}
+                                }
                             }
                         </tbody>
                     </table>

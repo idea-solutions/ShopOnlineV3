@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Models.FactoryModule;
+using WebApi.Models.ModelView;
 
 namespace WebApi.Controllers
 {
@@ -11,6 +13,13 @@ namespace WebApi.Controllers
     [ApiController]
     public class ImageProductController : ControllerBase
     {
+        private readonly IContainer _container;
+
+        public ImageProductController(IContainer container)
+        {
+            _container = container;
+        }
+
         // GET: api/ImageProduct
         [HttpGet]
         public IEnumerable<string> Get()
@@ -27,8 +36,17 @@ namespace WebApi.Controllers
 
         // POST: api/ImageProduct
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] ImageMv image )
         {
+            try
+            {
+                return Created(Url.Action("Get"), _container.ImageFactory.CreateNew(image));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
         }
 
         // PUT: api/ImageProduct/5

@@ -15,6 +15,7 @@ namespace Domain.Models.Entities
         public Guid ModifiedBy { get; set; }
         public DateTime DateCreate { get; set; }
         public DateTime DateModified { get; set; }
+        public int CountView { get; set; }
         public int Status { get; set; }
 
 
