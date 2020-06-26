@@ -14,6 +14,7 @@ namespace WebApi.Models.Dao
 {
     public class ImageProductDao : IFactory<ImageMv>
     {
+        private readonly string BaseLocationLink = "https://localhost:44360/productImages/";
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         [Obsolete]
@@ -53,15 +54,21 @@ namespace WebApi.Models.Dao
                 //delete file when fail
                 if (File.Exists(Path.Combine(pathBase, fileName)))
                     File.Delete(Path.Combine(pathBase, fileName));
-
                 Console.WriteLine(e.Message);
                 throw;
             }
         }
 
+        [Obsolete]
         public virtual bool Delete(object id)
         {
-            throw new NotImplementedException();
+            string pathBase = _hostEnvironment.WebRootPath + "\\productImages\\";
+            _unitOfWork.Images.Delete(id);
+            var image = _unitOfWork.Images.GetById(id).Result;
+            //delete file when fail
+            if (File.Exists(Path.Combine(pathBase, image.FileName)))
+                File.Delete(Path.Combine(pathBase, image.FileName));
+            return _unitOfWork.Commit();
         }
 
         public virtual bool Disable(object id)
@@ -71,7 +78,21 @@ namespace WebApi.Models.Dao
 
         public virtual async Task<List<ImageMv>> GetAll()
         {
-            throw new NotImplementedException();
+            var images = await _unitOfWork.Images.GetAll();
+
+            return images.Select(x => new ImageMv
+            {
+                CreateBy = x.CreateBy,
+                DateCreate = x.DateCreate,
+                DateModified = x.DateModified,
+                FileInput = "",
+                FileName = x.FileName,
+                ImageLocation = BaseLocationLink + x.FileName,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                ModifiedBy = x.ModifiedBy,
+                Status = x.Status
+            }).ToList();
         }
 
         public virtual ImageMv GetById(object id)

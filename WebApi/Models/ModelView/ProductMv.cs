@@ -16,7 +16,7 @@ namespace WebApi.Models.ModelView
         public Guid ModifiedBy { get; set; }
         public DateTime DateCreate { get; set; }
         public DateTime DateModified { get; set; }
-        public int Status { get; set; }
+        public Status Status { get; set; }
 
 
         public CategoryMv Category { get; set; }

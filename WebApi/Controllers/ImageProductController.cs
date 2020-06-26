@@ -34,6 +34,24 @@ namespace WebApi.Controllers
             return "value";
         }
 
+        // GET: api/ImageProduct/5
+        [HttpGet("GetByProductId/{id}")]
+        public IActionResult GetByProductId(Guid id)
+        {
+            try
+            {
+                var product = _container.ProductFactory.GetById(id);
+                product.Images = _container.ImageFactory.GetAll().Result.Where(x => x.ProductId == id).ToList();
+                return Ok(product);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return BadRequest();
+            }
+        }
+
+
         // POST: api/ImageProduct
         [HttpPost]
         public IActionResult Post([FromBody] ImageMv image )
@@ -49,16 +67,20 @@ namespace WebApi.Controllers
             }
         }
 
-        // PUT: api/ImageProduct/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(Guid id)
         {
+            try
+            {
+                if (_container.ImageFactory.Delete(id)) return Ok();
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return BadRequest();
+            }
         }
     }
 }

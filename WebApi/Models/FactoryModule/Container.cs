@@ -22,7 +22,7 @@ namespace WebApi.Models.FactoryModule
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-
+        [Obsolete]
         public Container(IUnitOfWork unitOfWork, IMapper mapper, IHostingEnvironment hostingEnvironment)
         {
             _mapper = mapper;

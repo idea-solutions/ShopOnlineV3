@@ -11,13 +11,13 @@
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script>
-    $(document).ready(function () {
-        $('#dataTable').DataTable();
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
         });
     </script>
 
 }
-<h1 class="h3 mb-2 text-gray-800">Image for Management</h1>
+<h1 class="h3 mb-2 text-gray-800">Image for @product.Name Management</h1>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -46,22 +46,23 @@
                     </tr>
                 </tfoot>
                 <tbody>
-
-                    <tr>
-                        <td>addad</td>
-                        <td>dssada</td>
-                        <td>dssada</td>
-                        <td>dssada</td>
-                        <td>
-                            <a href="#" class="btn btn-warning">
-                                info
-                            </a>
-                            <a href="#" class="btn btn-danger">
-                                dunno
-                            </a>
-                        </td>
-                    </tr>
-
+                    @foreach (var image in product.Images)
+                    {
+                        <tr>
+                            <td><img src="@image.ImageLocation" height="50" alt="" /></td>
+                            <td>@image.CreateBy</td>
+                            <td>@image.DateCreate</td>
+                            <td>@image.Status</td>
+                            <td>
+                                <a href="#" id="infor" class="btn btn-warning">
+                                    Infor
+                                </a>
+                                <a href="@Url.Action("DeleteImage","ImageProduct",new { id = image.Id , productId = product.Id })" class="btn btn-danger">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

@@ -14,6 +14,7 @@ namespace WebApi.Models.ModelView
         public int Status { get; set; }
         public Guid ProductId { get; set; }
         public string FileInput { get; set; }
+        public string ImageLocation { get; set; }
         public ProductMv Product { get; set; }
        
     }

@@ -29,6 +29,18 @@ namespace WebApi.Controllers
             return Ok(await _userManager.Users.ToListAsync());
         }
 
+        // GET: api/User
+        [HttpGet]
+        [Route("UserLogin")]
+        public async Task<IActionResult> UserLogin()
+        {
+
+
+            return Ok(await _userManager.Users.ToListAsync());
+        }
+
+
+
         [HttpPost]
         [Route("UserRegister")]  
         public async Task<IActionResult> UserRegister(UserMv user)
@@ -44,9 +56,7 @@ namespace WebApi.Controllers
                     Dob = user.Dob,
                     PhoneNumber = user.Phone,
                     Email = user.Email,
-                    Address = user.Address,
-                    
-                    
+                    Address = user.Address  
                 };
                 await _userManager.CreateAsync(data,user.Password);
                 return Ok();

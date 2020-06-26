@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,6 +18,19 @@ namespace WebAdmin.Models.Business
         {
             var res = await ServiceApi.PostData<ImageMv>(ModelName, imageProduct);
             return res.StatusCode == HttpStatusCode.Created;
+        }
+
+        internal static async Task<ProductMv> GetByProductId(Guid productId)
+        {
+            var res = await ServiceApi.GetDataById(ModelName + "/GetByProductId", productId);
+            return res.StatusCode == HttpStatusCode.OK
+                ? JsonConvert.DeserializeObject<ProductMv>(res.Content.ReadAsStringAsync().Result.ToString()) : null;
+        }
+
+        internal static async Task<bool> DeleteImage(Guid id)
+        {
+            var res = await ServiceApi.DeleteDataById(ModelName, id);
+            return res.StatusCode == HttpStatusCode.OK;
         }
     }
 
