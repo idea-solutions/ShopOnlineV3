@@ -18,78 +18,23 @@ namespace UnitOfWork
         private BaseRepository<TypeProduct> _TypeProduct;
         private BaseRepository<Order> _Order;
         private BaseRepository<OrderDetail> _OrderDetail;
-
-        public  UnitOfWork(WebOnlineDbContext dbContext)
+        private BaseRepository<ColorCode> _ColorCode;
+        private BaseRepository<Size> _Size;
+        public UnitOfWork(WebOnlineDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-
-        public virtual IRepository<AppRole> AppRoles
-        {
-            get
-            {
-                return _AppRole ??= new BaseRepository<AppRole>(_dbContext);
-            }
-        }
-
-        public virtual IRepository<AppUser> AppUsers
-        {
-            get
-            {
-                return _AppUser ??= new BaseRepository<AppUser>(_dbContext);
-            }
-        }
-
-        public virtual IRepository<Cart> Carts
-        {
-            get
-            {
-                return _Cart ??= new BaseRepository<Cart>(_dbContext);
-            }
-        }
-        public virtual IRepository<Category> Categories
-        {
-            get
-            {
-                return _Category ??= new BaseRepository<Category>(_dbContext);
-            }
-        }
-        public virtual IRepository<Image> Images
-        {
-            get
-            {
-                return _Image ??= new BaseRepository<Image>(_dbContext);
-            }
-        }
-        public virtual IRepository<Order> Orders
-        {
-            get
-            {
-                return _Order ??= new BaseRepository<Order>(_dbContext);
-            }
-        }
-        public virtual IRepository<OrderDetail> OrderDetails
-        {
-            get
-            {
-                return _OrderDetail ??= new BaseRepository<OrderDetail>(_dbContext);
-            }
-        }
-        public virtual IRepository<Product> Products
-        {
-            get
-            {
-                return _Product ??= new BaseRepository<Product>(_dbContext);
-            }
-        }
-        public virtual IRepository<TypeProduct> TypeProducts
-        {
-            get
-            {
-                return _TypeProduct ??= new BaseRepository<TypeProduct>(_dbContext);
-            }
-        }
-
+        public virtual IRepository<AppRole> AppRoles => _AppRole ??= new BaseRepository<AppRole>(_dbContext);
+        public virtual IRepository<AppUser> AppUsers => _AppUser ??= new BaseRepository<AppUser>(_dbContext);
+        public virtual IRepository<Cart> Carts => _Cart ??= new BaseRepository<Cart>(_dbContext);
+        public virtual IRepository<Category> Categories => _Category ??= new BaseRepository<Category>(_dbContext);
+        public virtual IRepository<Image> Images => _Image ??= new BaseRepository<Image>(_dbContext);
+        public virtual IRepository<Order> Orders => _Order ??= new BaseRepository<Order>(_dbContext);
+        public virtual IRepository<OrderDetail> OrderDetails => _OrderDetail ??= new BaseRepository<OrderDetail>(_dbContext);
+        public virtual IRepository<Product> Products => _Product ??= new BaseRepository<Product>(_dbContext);
+        public virtual IRepository<TypeProduct> TypeProducts => _TypeProduct ??= new BaseRepository<TypeProduct>(_dbContext);
+        public virtual IRepository<ColorCode> ColorCodes => _ColorCode ??= new BaseRepository<ColorCode>(_dbContext);
+        public virtual IRepository<Size> Sizes => _Size ??= new BaseRepository<Size>(_dbContext);
         public bool Commit()
         {
             return _dbContext.SaveChanges() > 0;

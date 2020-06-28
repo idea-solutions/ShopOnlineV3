@@ -10,5 +10,7 @@ namespace WebApi.Models.FactoryModule
         public IFactory<ProductMv> ProductFactory { get; }
         public IFactory<TypeProductMv> TypeProductFactory { get; }
         public IFactory<ImageMv> ImageFactory { get; }
+        public IFactory<ColorCodeMv> ColorCodeFactory { get; }
+        public IFactory<SizeMv> SizeFactory { get; }
     }
 }

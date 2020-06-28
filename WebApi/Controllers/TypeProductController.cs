@@ -37,6 +37,35 @@ namespace WebApi.Controllers
                 return BadRequest();
             }
         }
+        // GET: api/TypeProduct/GetListColor
+        [HttpGet("GetListColor")]
+        public IActionResult GetListColor()
+        {
+            try
+            {
+                return Ok(_container.ColorCodeFactory.GetAll().Result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+        // GET: api/TypeProduct/GetListSize
+        [HttpGet("GetListSize")]
+        public IActionResult GetListSize()
+        {
+            try
+            {
+
+                return Ok(_container.SizeFactory.GetAll().Result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
 
         // GET: api/TypeProduct/5
         [HttpGet("{id}")]
@@ -61,9 +90,14 @@ namespace WebApi.Controllers
             {
                 var data = _container.ProductFactory.GetById(id);
                 var typeProducts = _container.TypeProductFactory.GetAll().Result.Where(x => x.ProductId == id).ToList();
-                foreach (var typeProduct in typeProducts) typeProduct.Product = null; 
-                
-                data.TypeProducts =  typeProducts;
+                foreach (var typeProduct in typeProducts)
+                {
+                    typeProduct.Product = null;
+                    typeProduct.ColorCode = _container.ColorCodeFactory.GetAll().Result.SingleOrDefault(x => x.Id == typeProduct.ColorId);
+                    typeProduct.Size = _container.SizeFactory.GetAll().Result.SingleOrDefault(x => x.Id == typeProduct.SizeId);
+                }
+
+                data.TypeProducts = typeProducts;
                 return Ok(data);
             }
             catch (Exception e)
@@ -80,6 +114,35 @@ namespace WebApi.Controllers
             try
             {
                 return Created(Url.Action("Get"), _container.TypeProductFactory.CreateNew(typeProduct));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+        // POST: api/TypeProduct/AddNewColor
+        [HttpPost("AddNewColor")]
+        public IActionResult AddNewColor([FromBody] ColorCodeMv color)
+        {
+            try
+            {
+                return Created(Url.Action("Get"), _container.ColorCodeFactory.CreateNew(color));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        // POST: api/TypeProduct/AddNewColor
+        [HttpPost("AddNewSize")]
+        public IActionResult AddNewSize([FromBody] SizeMv size)
+        {
+            try
+            {
+                return Created(Url.Action("Get"), _container.SizeFactory.CreateNew(size));
             }
             catch (Exception e)
             {
@@ -111,6 +174,36 @@ namespace WebApi.Controllers
             try
             {
                 if (_container.TypeProductFactory.Delete(id)) return Ok();
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+        // DELETE: api/TypeProduct/DeleteColor/5
+        [HttpDelete("DeleteColor/{id}")]
+        public IActionResult DeleteColor(int id)
+        {
+            try
+            {
+                if (_container.ColorCodeFactory.Delete(id)) return Ok();
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+        // DELETE: api/TypeProduct/DeleteColor/5
+        [HttpDelete("DeleteSize/{id}")]
+        public IActionResult DeleteSize(int id)
+        {
+            try
+            {
+                if (_container.SizeFactory.Delete(id)) return Ok();
                 return BadRequest();
             }
             catch (Exception e)

@@ -18,6 +18,10 @@ namespace WebApi.Models.MappingProfile
             CreateMap<ProductMv, Product>();
             CreateMap<Image, ImageMv>();
             CreateMap<ImageMv,Image>();
+            CreateMap<ColorCode, ColorCodeMv>();
+            CreateMap<ColorCodeMv, ColorCode>();
+            CreateMap<Size, SizeMv>();
+            CreateMap<SizeMv, Size>();
             CreateMap<Cart, CartMv>();
             CreateMap<CartMv,Cart>();
             CreateMap<TypeProduct, TypeProductMv>();

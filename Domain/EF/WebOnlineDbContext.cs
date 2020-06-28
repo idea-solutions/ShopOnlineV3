@@ -32,10 +32,11 @@ namespace Domain.EF
             modelBuilder.ApplyConfiguration(new OrderDetailConfig());
             modelBuilder.ApplyConfiguration(new ProductConfig());
             modelBuilder.ApplyConfiguration(new TypeProductConfig());
+            modelBuilder.ApplyConfiguration(new ColorCofig());
+            modelBuilder.ApplyConfiguration(new SizeConfig());
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
             modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
-
             modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
         }
@@ -50,6 +51,7 @@ namespace Domain.EF
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<TypeProduct> TypeProducts { get; set; }
-
+        public DbSet<ColorCode> ColorCodes { get; set; }
+        public DbSet<Size> Sizes { get; set; }
     }
 }

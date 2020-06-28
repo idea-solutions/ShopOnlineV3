@@ -17,6 +17,9 @@ namespace WebApi.Models.FactoryModule
         private IFactory<ProductMv> _productFactory;
         private IFactory<TypeProductMv> _typeProductFactory;
         private IFactory<ImageMv> _ImageFactory;
+        private IFactory<ColorCodeMv> _ColorCodeFactory;
+        private IFactory<SizeMv> _SizeFactory;
+
         [Obsolete]
         private readonly IHostingEnvironment _hostEnvironment;
         private readonly IUnitOfWork _unitOfWork;
@@ -37,5 +40,9 @@ namespace WebApi.Models.FactoryModule
 
         [Obsolete]
         public IFactory<ImageMv> ImageFactory => _ImageFactory ??= new ImageProductDao(_unitOfWork, _mapper, _hostEnvironment);
+
+        public IFactory<ColorCodeMv> ColorCodeFactory => _ColorCodeFactory ??= new ColorCodeDao(_unitOfWork, _mapper);
+
+        public IFactory<SizeMv> SizeFactory => _SizeFactory ??= new SizeDao(_unitOfWork, _mapper);
     }
 }

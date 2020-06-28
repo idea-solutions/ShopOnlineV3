@@ -5,6 +5,9 @@
     ViewData["Title"] = "ForProduct";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ProductMv product = ViewBag.Product;
+    List<ColorCodeMv> colorCodes = ViewBag.ColorCodes;
+    List<SizeMv> sizes = ViewBag.Sizes;
+
 }
 @section Scripts{
     <!-- Page level plugins -->
@@ -15,7 +18,6 @@
             $('#dataTable').DataTable();
         });
     </script>
-
 }
 <h1 class="h3 mb-2 text-gray-800">Type @product.Name Management</h1>
 
@@ -46,14 +48,14 @@
                     @foreach (var typeroduct in product.TypeProducts)
                     {
                         <tr>
-                            <td>@typeroduct.Size</td>
-                            <td><i style="color: @typeroduct.Color " class="fas fa-swatchbook fa-3x"></i></td>
+                            <td>@typeroduct.Size.Name</td>
+                            <td><i style="color: @typeroduct.ColorCode.ColorData " class="fas fa-swatchbook fa-3x"></i> @typeroduct.ColorCode.Name</td>
                             <td>
                                 <a href="#" class="btn btn-warning">
                                     info
                                 </a>
-                                <a href="#" class="btn btn-danger">
-                                    dunno
+                                <a href="@Url.Action("DeleteTypeProduct","TypeProduct", new { typeProductId = typeroduct.Id, productId = product.Id  })" class="btn btn-danger">
+                                    Delete
                                 </a>
                             </td>
                         </tr>
@@ -78,13 +80,26 @@
                 <form asp-action="AddTypeProduct" method="post">
                     <input type="hidden" asp-for="ProductId" value="@product.Id" />
                     <div class="form-group">
-                        <label asp-for="Size" for="size"></label>
-                        <input id="size" type="text" asp-for="Size" class="form-control" required placeholder="Enter Size. ">
-                        <small class="form-text text-muted">Ex: XXl, xxx,...</small>
+                        <label asp-for="SizeId" for="size"></label>
+                        <select class="form-control" asp-for="SizeId">
+                            @foreach (var size in sizes)
+                            {
+                                <option value="@size.Id">
+                                    @size.Name
+                                </option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Color" for="color"></label>
-                        <input type="color" id="color" asp-for="Color" class="colorChooser form-control" required>
+                        <label asp-for="ColorId" for="color"></label>
+                        <select class="form-control" asp-for="ColorId">
+                            @foreach (var colorCode in colorCodes)
+                            {
+                                <option style="color : @colorCode.ColorData" value="@colorCode.Id">
+                                    @colorCode.Name
+                                </option>
+                            }
+                        </select>
                         <small class="form-text text-muted"></small>
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>

@@ -43,8 +43,8 @@ namespace WebApi.Models.Dao
         public bool Update(object id, TypeProductMv data)
         {
             var typeProduct = _unitOfWork.TypeProducts.GetById(id).Result;
-            typeProduct.Color = data.Color;
-            typeProduct.Size = data.Size;
+            typeProduct.ColorId = data.ColorId;
+            typeProduct.SizeId = data.ColorId;
             return _unitOfWork.Commit();
         }
 

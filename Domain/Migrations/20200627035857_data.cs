@@ -84,11 +84,25 @@ namespace Domain.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     CategoryParent = table.Column<int>(nullable: false),
-                    SubCategoryId = table.Column<Guid>(nullable: false)
+                    SubCategoryId = table.Column<Guid>(nullable: false, defaultValue: new Guid("e2d07078-84d1-4875-9da7-4aeed81225d3"))
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ColorCodes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    ColorData = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ColorCodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,6 +118,19 @@ namespace Domain.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sizes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sizes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,8 +174,9 @@ namespace Domain.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreateBy = table.Column<Guid>(nullable: false),
                     ModifiedBy = table.Column<Guid>(nullable: false),
-                    DateCreate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 6, 17, 14, 36, 30, 641, DateTimeKind.Local).AddTicks(7880)),
+                    DateCreate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
                     DateModified = table.Column<DateTime>(nullable: false),
+                    CountView = table.Column<int>(nullable: false, defaultValue: 0),
                     Status = table.Column<int>(nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
@@ -169,7 +197,7 @@ namespace Domain.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     ProductId = table.Column<Guid>(nullable: false),
-                    DateAdd = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 6, 17, 14, 36, 30, 622, DateTimeKind.Local).AddTicks(9499)),
+                    DateAdd = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 6, 27, 10, 58, 57, 342, DateTimeKind.Local).AddTicks(867)),
                     Quantity = table.Column<int>(nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
@@ -211,7 +239,7 @@ namespace Domain.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     FileName = table.Column<string>(maxLength: 50, nullable: false),
                     CreateBy = table.Column<Guid>(nullable: false),
-                    DateCreate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 6, 17, 14, 36, 30, 635, DateTimeKind.Local).AddTicks(8109)),
+                    DateCreate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
                     ModifiedBy = table.Column<Guid>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false, defaultValue: 1),
@@ -233,17 +261,29 @@ namespace Domain.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Size = table.Column<string>(maxLength: 10, nullable: false),
-                    Color = table.Column<string>(maxLength: 25, nullable: false),
+                    SizeId = table.Column<int>(nullable: false),
+                    ColorId = table.Column<int>(nullable: false),
                     ProductId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TypeProducts", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_TypeProducts_ColorCodes_ColorId",
+                        column: x => x.ColorId,
+                        principalTable: "ColorCodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_TypeProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TypeProducts_Sizes_SizeId",
+                        column: x => x.SizeId,
+                        principalTable: "Sizes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -305,9 +345,19 @@ namespace Domain.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TypeProducts_ColorId",
+                table: "TypeProducts",
+                column: "ColorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TypeProducts_ProductId",
                 table: "TypeProducts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TypeProducts_SizeId",
+                table: "TypeProducts",
+                column: "SizeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -349,7 +399,13 @@ namespace Domain.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
+                name: "ColorCodes");
+
+            migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Sizes");
 
             migrationBuilder.DropTable(
                 name: "Categories");

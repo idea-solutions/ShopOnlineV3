@@ -15,9 +15,11 @@ namespace Domain.DBConfig
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd().IsRequired();
             builder.Property(x => x.ProductId).IsRequired();
-            builder.Property(x => x.Color).IsRequired().HasMaxLength(25);
-            builder.Property(x => x.Size).IsRequired().HasMaxLength(10);
+            builder.Property(x => x.ColorId).IsRequired();
+            builder.Property(x => x.SizeId).IsRequired();
             builder.HasOne(x => x.Product).WithMany(x => x.TypeProducts).HasForeignKey(x => x.ProductId);
+            builder.HasOne(x => x.ColorCode).WithMany(x => x.typeProducts).HasForeignKey(x => x.ColorId);
+            builder.HasOne(x => x.Size).WithMany(x => x.typeProducts).HasForeignKey(x => x.SizeId);
         }
     }
 }
