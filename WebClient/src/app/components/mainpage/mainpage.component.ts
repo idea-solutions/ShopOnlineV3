@@ -8,18 +8,15 @@ import { CategoriesService } from 'src/app/services/categories.service';
   styleUrls: ['./mainpage.component.less']
 })
 export class MainpageComponent implements OnInit {
-
-  categories: Category[];
-
-  constructor(private categoryService: CategoriesService) {
+    constructor() {
 
   }
 
 
 
   ngOnInit(): void {
-    this.categoryService.GetAllCategories().subscribe((categories: Category[]) => this.categories = categories);
-    console.log(this.categories);
+
+
   }
 
 
