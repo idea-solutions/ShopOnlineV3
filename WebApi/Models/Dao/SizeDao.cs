@@ -44,6 +44,11 @@ namespace WebApi.Models.Dao
             return _mapper.Map<List<SizeMv>>(await _unitOfWork.Sizes.GetAll());
         }
 
+        public Task<List<SizeMv>> GetAll(int index = 1, int take = 10)
+        {
+            throw new NotImplementedException();
+        }
+
         public SizeMv GetById(object id)
         {
             throw new NotImplementedException();

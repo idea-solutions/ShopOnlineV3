@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnitOfWork;
+using WebApi.Common;
 using WebApi.Models.FactoryModule;
 using WebApi.Models.ModelView;
 
@@ -14,14 +15,14 @@ namespace WebApi.Models.Dao
 {
     public class ImageProductDao : IFactory<ImageMv>
     {
-        private readonly string BaseLocationLink = "https://localhost:44360/productImages/";
+       
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        [Obsolete]
-        private readonly IHostingEnvironment _hostEnvironment;
+       
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         [Obsolete]
-        public ImageProductDao(IUnitOfWork unitOfWork, IMapper mapper, IHostingEnvironment environment
+        public ImageProductDao(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment environment
             )
         {
             _unitOfWork = unitOfWork;
@@ -87,12 +88,17 @@ namespace WebApi.Models.Dao
                 DateModified = x.DateModified,
                 FileInput = "",
                 FileName = x.FileName,
-                ImageLocation = BaseLocationLink + x.FileName,
+                ImageLocation = ConstString.BaseLocationImageLink + x.FileName,
                 Id = x.Id,
                 ProductId = x.ProductId,
                 ModifiedBy = x.ModifiedBy,
                 Status = x.Status
             }).ToList();
+        }
+
+        public Task<List<ImageMv>> GetAll(int index = 1, int take = 10)
+        {
+            throw new NotImplementedException();
         }
 
         public virtual ImageMv GetById(object id)

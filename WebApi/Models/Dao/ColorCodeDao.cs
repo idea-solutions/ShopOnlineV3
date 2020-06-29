@@ -46,6 +46,11 @@ namespace WebApi.Models.Dao
             return _mapper.Map<List<ColorCodeMv>>(await _unitOfWork.ColorCodes.GetAll());
         }
 
+        public Task<List<ColorCodeMv>> GetAll(int index = 1, int take = 10)
+        {
+            throw new NotImplementedException();
+        }
+
         public ColorCodeMv GetById(object id)
         {
             throw new NotImplementedException();

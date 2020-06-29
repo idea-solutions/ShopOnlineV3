@@ -9,6 +9,7 @@ namespace Domain.Models.Entities
         public Guid Id { get; set; }
         public Guid CategoryId { get; set; }
         public string Name { get; set; }
+        public string ProductImage { get; set; }
         public string Detail { get; set; }
         public decimal Price { get; set; }
         public Guid CreateBy { get; set; }

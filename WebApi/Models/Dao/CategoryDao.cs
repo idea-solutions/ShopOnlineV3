@@ -64,5 +64,10 @@ namespace WebApi.Models.Dao
         {
             return false;
         }
+
+        public Task<List<CategoryMv>> GetAll(int index = 1, int take = 10)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -58,5 +58,10 @@ namespace WebApi.Models.Dao
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<TypeProductMv>> GetAll(int index = 1, int take = 10)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

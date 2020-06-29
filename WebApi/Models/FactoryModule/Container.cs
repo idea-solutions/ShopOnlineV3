@@ -9,6 +9,8 @@ using UnitOfWork;
 using WebApi.Models.Dao;
 using WebApi.Models.ModelView;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
 namespace WebApi.Models.FactoryModule
 {
     public class Container : IContainer
@@ -20,13 +22,13 @@ namespace WebApi.Models.FactoryModule
         private IFactory<ColorCodeMv> _ColorCodeFactory;
         private IFactory<SizeMv> _SizeFactory;
 
-        [Obsolete]
-        private readonly IHostingEnvironment _hostEnvironment;
+      
+        private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        [Obsolete]
-        public Container(IUnitOfWork unitOfWork, IMapper mapper, IHostingEnvironment hostingEnvironment)
+        
+        public Container(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment hostingEnvironment)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -34,7 +36,7 @@ namespace WebApi.Models.FactoryModule
         }
         public IFactory<CategoryMv> CategoryFactory => _categoryFactory ??= new CategoryDao(_unitOfWork, _mapper);
 
-        public IFactory<ProductMv> ProductFactory => _productFactory ??= new ProductDao(_unitOfWork, _mapper);
+        public IFactory<ProductMv> ProductFactory => _productFactory ??= new ProductDao(_unitOfWork, _mapper, _hostEnvironment);
 
         public IFactory<TypeProductMv> TypeProductFactory => _typeProductFactory ??= new TypeProductDao(_unitOfWork, _mapper);
 
