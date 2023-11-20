@@ -2,6 +2,6 @@
   "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0-*",
   "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
   "ConnectionStrings": {
-    "SqlServerConnection": "Server=DESKTOP-UQL536P\\AKAKSHUKI;Database=ShopOnlineV3;Trusted_Connection=True;"
+    "SqlServerConnection": "Server=LAPTOP-HBS5B8J5;Database=_ShopOnlineV3;User Id=sa;Password=2357;Trusted_Connection=True;"
   }
 }

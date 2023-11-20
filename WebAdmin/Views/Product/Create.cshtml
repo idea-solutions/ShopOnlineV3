@@ -1,9 +1,13 @@
-﻿@using WebAdmin.Models.ModelView
+﻿@using WebAdmin.Models.Business;
+@using WebAdmin.Models.Enum;
+@using WebAdmin.Models.ModelView
 @model WebAdmin.Models.ModelView.ProductMv
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<CategoryMv> categories = ViewBag.Categories;
+    // List<CategoryMv> categories = ViewBag.Categories;
+    List<CategoryMv> categories = CategoryBus.GetAll().Result.Where(x => x.CategoryParent == TypeCategories.Child).ToList();
+
 }
 
 @section Scripts
